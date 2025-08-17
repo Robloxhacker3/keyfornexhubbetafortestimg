@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .continue-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .shop-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .shop-btn:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .task-counter {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .key-ui {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 10px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .key-text {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .get-key-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .get-key-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Key System</h1>
+        
+        <div id="main-buttons">
+            <a href="#" class="button continue-btn" onclick="startKeyProcess()">Continue</a>
+            <a href="https://linkvertise.com" class="button shop-btn">Key Shop! (Soon!!)</a>
+        </div>
+
+        <div id="task-counter" class="task-counter">
+            <h3>Complete the task to get your key!</h3>
+            <p>Task <span id="current-task">1</span> of 2</p>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <a href="https://linkvertise.com" class="button continue-btn" onclick="completeTask()" target="_blank">Complete Task</a>
+        </div>
+
+        <div id="key-ui" class="key-ui">
+            <div class="key-text">🎉 Tasks Completed! Get Your Key Now!</div>
+            <button class="get-key-btn" onclick="goToKeygen()">Get Your Key</button>
+        </div>
+    </div>
+
+    <script>
+        let tasksCompleted = 0;
+        const totalTasks = 2;
+
+        function startKeyProcess() {
+            document.getElementById('main-buttons').style.display = 'none';
+            document.getElementById('task-counter').style.display = 'block';
+            updateProgress();
+        }
+
+        function completeTask() {
+            // Simulate task completion after a delay
+            setTimeout(() => {
+                tasksCompleted++;
+                document.getElementById('current-task').textContent = tasksCompleted + 1;
+                updateProgress();
+
+                if (tasksCompleted >= totalTasks) {
+                    document.getElementById('task-counter').style.display = 'none';
+                    document.getElementById('key-ui').style.display = 'block';
+                }
+            }, 3000); // 3 second delay to simulate task completion
+        }
+
+        function updateProgress() {
+            const progressPercent = (tasksCompleted / totalTasks) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+        }
+
+        function goToKeygen() {
+            window.location.href = 'keygen.html';
+        }
+
+        // Auto-complete task when user returns from linkvertise
+        window.addEventListener('focus', function() {
+            if (tasksCompleted < totalTasks && document.getElementById('task-counter').style.display !== 'none') {
+                completeTask();
+            }
+        });
+    </script>
+</body>
+</html>
